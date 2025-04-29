@@ -118,15 +118,44 @@ The diagram below shows how the GPIO pins are connected to the 16 interrupt line
   
 
 ## STM 32 CUBE PROGRAM :
+```
+#include <main.h>
+#include <stdio.h>
+#if defined(__ICCARM__)||defined(_ARMCC_VERSION)
+#defined PUTCHAR_PROTOTYPE int fputc(int ch, FILE*f);
+#elif defined(__GNUC__)
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#endif
+ while (1)
+  {
 
-
+  }
+}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4)==0)
+	{
+		printf("INTERRUPT GENERATED\n");
+		HAL_Delay(500);
+	}
+	else
+	{
+		printf("INTERRUPT NOT GENERATED\n");
+		HAL_Delay(500);
+	}
+}
+PUTCHAR_PROTOTYPE
+{
+	HAL_UART_Transmit(&huart2,(uint8_t *)&ch,1,0xFFFF);
+	return ch;
+}
+```
 
 ## Output screen shots of serial port utility   :
- 
- 
+ ![image](https://github.com/user-attachments/assets/ad2e872f-d2d8-42ac-9ee6-c24fa6889d0b)
+
  ## Circuit board :
- 
- 
+ ![image](https://github.com/user-attachments/assets/8ae1308d-e06e-449c-aa6f-50de81723511)
  
 ## Result :
 Interfacing a  IR SENSOR and interrupt is generated using external interrupt mode , visualized on serial port 
